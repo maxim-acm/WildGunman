@@ -1,56 +1,102 @@
 /**
  * Created by Maxim on 07.10.2015.
  */
-
 var Game = function () {
-    this.start();
     this.init();
-
+    this.start();
 };
 
-Game.prototype.init = function() {
-    this.score = 0;
-    this.loss = 0;
-    this.over = false;
-    this.won = false;
-
+Game.prototype.init = function () {
     this.level = 1;
+    this.speed = 800;
+    this.moveTime = 2000;
+
+    this.userShoot = false;
+
+    this.timerId;
+};
+
+Game.prototype.start = function () {
+    this.moveMan();
+};
+
+Game.prototype.moveMan = function() {
+    var __self = this;
+    console.log('move man!');
+
+    setTimeout(function(){
+        __self.prepeareToFire();
+    }, 2000);
+};
+
+Game.prototype.prepeareToFire = function() {
+    var __self = this;
+    console.log('wait');
+
+
+        setTimeout(function () {
+            if (__self.userShoot == false) {
+                __self.startShooting();
+            }
+
+        }, 3000);
 
 };
 
-Game.prototype.setup = function() {
+Game.prototype.startShooting = function () {
+    console.log('startShooting!');
+    this.manFire();
+
+
 
 };
 
-Game.prototype.start = function() {
-    this.runMan();
+Game.prototype.manFire = function() {
+    var __self = this;
+
+        this.timerId = setTimeout(function () {
+
+            if (__self.userShoot == false) {
+                __self.gameOver();
+                console.log('Man Fire!');
+            }
+        }, 5000);
+
 };
 
-Game.prototype.runMan = function() {
-
+Game.prototype.userFire = function() {
+    console.log('user fire!');
+    clearTimeout(this.timerId);
+    this.userShoot = true;
+    this.nextLevel();
 };
 
-Game.prototype.upLevel = function() {
-  this.level++;
+Game.prototype.gameOver = function () {
+    console.log('Game Over!');
+};
 
-    switch (true) {
-        case (this.level == 2):
-            this.time += -5;
-            break;
-        case  (this.level == 3):
-            this.time += -10;
-            break;
-        case  (this.level == 4):
-            this.time += -15;
-            break;
+Game.prototype.nextLevel = function () {
+
+    if (this.level !==7) {
+        console.log('Next Level ' + this.level);
+        this.level++;
+        this.userShoot = false;
+        this.start();
     }
-
+    else {
+        this.won();
+    }
 };
 
-Game.prototype.gameWin = function() {
-    this.over = true;
+Game.prototype.won = function() {
+    console.log("Won!");
 };
 
-Game.prototype.gameOver = function() {
-    this.over = true;
-};
+var game = new Game();
+
+
+
+
+
+
+

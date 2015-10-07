@@ -3,7 +3,7 @@
  */
 (function(window, $) {
 
-    var game = new Game();
+
 
 }) (window, jQuery);
 
