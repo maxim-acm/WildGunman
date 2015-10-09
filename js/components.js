@@ -15,6 +15,13 @@ Game.prototype.init = function () {
     this.userFailFire = false;
 
     this.timerId;
+
+    this.timePrepeareToFire = function() {
+        var min = 1000,
+            max = 3000;
+
+        return Math.random() * (max - min) + min ;
+    }
 };
 
 Game.prototype.start = function () {
@@ -27,7 +34,7 @@ Game.prototype.moveMan = function() {
 
     setTimeout(function(){
         __self.prepeareToFire();
-    }, 2000);
+    }, __self.moveTime)
 };
 
 Game.prototype.prepeareToFire = function() {
@@ -39,7 +46,7 @@ Game.prototype.prepeareToFire = function() {
                 __self.startShooting();
             }
 
-        }, 3000);
+        }, __self.timePrepeareToFire());
 
 };
 
