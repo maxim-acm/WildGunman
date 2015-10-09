@@ -1,194 +1,259 @@
-body {
+body
+{
     font-family: 'Press Start 2P', cursive;
 }
 
-.game {
-    width: 980px;
-    height: 740px;
-    background: #333333;
-    margin: 100px auto;
+.game
+{
     position: relative;
 
+    width: 980px;
+    height: 740px;
+    margin: 100px auto;
+
+    background: #333;
 }
 
-.game__info {
-    display: block;
-    width: 100%;
-    height: 120px;
+.game__info
+{
     position: absolute;
     top: 0;
-    text-align: center;
+
+    display: block;
+
+    width: 100%;
+    height: 120px;
     margin-top: 10px;
+
+    text-align: center;
 }
 
-.info-box {
+.info-box
+{
+    font-size: 20px;
+    line-height: 40px;
+
     display: inline-block;
+
+    width: 200px;
+
+    text-transform: uppercase;
+
+    color: limegreen;
     border: 4px solid limegreen;
     border-radius: 10px;
-    font-size: 20px;
-    text-transform: uppercase;
-    width: 200px;
-    line-height: 40px;
-    color: limegreen;
-
 }
 
-hr {
+hr
+{
     margin: 5px 0;
 }
 
-.info-time {
-    display: inline-block;
+.info-time
+{
     font-size: 20px;
-    text-transform: uppercase;
-    width: 200px;
     line-height: 40px;
-    color: limegreen;
+
+    display: inline-block;
+
+    width: 200px;
     margin-right: -210px;
+
+    text-transform: uppercase;
+
+    color: limegreen;
 }
 
-.game__start {
+.game__start
+{
+    position: absolute;
+    z-index: 2;
 
     width: 100%;
     height: 100%;
+
     text-align: center;
-    background: #333333;
-    position: absolute;
-    z-index: 2;
+
+    background: #333;
 }
 
-.game__name {
-    color: #fd6f63;
+.game__name
+{
     font-size: 50px;
-    text-transform: uppercase;
+
     padding-top: 150px;
+
     cursor: default;
+    text-transform: uppercase;
+
+    color: #fd6f63;
 }
 
-.start__menu {
-
-    color: #5281CB;
+.start__menu
+{
     font-size: 25px;
     line-height: 30px;
-    text-transform: uppercase;
+
     position: relative;
-    cursor: pointer;
+
     width: 500px;
     margin: 100px auto;
+
+    cursor: pointer;
+    text-transform: uppercase;
+
+    color: #5281cb;
 }
 
-.hover:hover::before {
-    content: '*';
+.hover:hover::before
+{
     position: absolute;
-    color: white;
     left: -10px;
+
+    content: '*';
+
+    color: white;
 }
 
-.game__action {
-    width: 100%;
-    height: 500px;
-    background: url("../image/bg.png") center no-repeat;
-    background-size: 100%;
+.game__action
+{
     position: absolute;
     top: 0;
     bottom: 0;
+
+    width: 100%;
+    height: 500px;
     margin: auto;
+
+    background: url('../image/bg.png') center no-repeat;
+    background-size: 100%;
 }
 
-.game__character {
-    background: url("../image/gunman.png") no-repeat 0 0;
-    overflow: hidden;
+.game__man
+{
     position: absolute;
-    right: 0;
     top: 80px;
-    zoom: 2.7;
+    right: 0;
+
     display: none;
+    overflow: hidden;
+    zoom: 2.7;
+
     width: 33px;
     height: 65px;
+
+    background: url('../image/gunman.png') no-repeat 0 0;
 }
 
-.bg-position-in-wait {
+.man-position-in-wait
+{
     background-position: -100px 0;
 }
 
-.character-move {
-    transition: 5s linear;
+.move-man
+{
     right: 165px;
+
+    transition: 5s linear;
 }
 
-.bg-position-in-start-to-shoot {
-    background-position: -202px 0;
+.bg-position-in-start-to-shoot
+{
     transition: 0s;
     transform: scale(-1,1);
+
+    background-position: -202px 0;
 }
 
-.bg-position-in-prefire {
+.bg-position-in-prefire
+{
     background-position: -235px 0;
 }
 
-.bg-position-in-fire {
+.bg-position-in-fire
+{
     background-position: -269px 0;
-
 }
 
-.character-move-with-win {
-    background-position: 0 0;
+.man-move-with-win
+{
     right: 0;
-    animation: play 0.4s steps(3) infinite;
-    transition: 5s linear;
 
+    transition: 5s linear;
+    animation: play .4s steps(3) infinite;
+
+    background-position: 0 0;
 }
 
-.character-death {
+.man-death
+{
     background-position: -337px 0;
 }
 
-.character-death-full {
+.man-death-full
+{
     background-position: -372px 0;
 }
 
-.character-going {
-    animation: play 0.3s steps(3) infinite;
+.going-man
+{
+    animation: play .3s steps(3) infinite;
 }
 
-@keyframes play {
-    100% {background-position: -99px 0}
+@keyframes play
+{
+    100%
+    {
+        background-position: -99px 0;
+    }
 }
 
-.game__status {
+.game__status
+{
+    line-height: 50px;
+
+    position: absolute;
+    z-index: 3;
+    top: 200px;
+    right: 0;
+    left: 0;
+
+    display: none;
+
     width: 200px;
     height: 50px;
-    background: white;
-    color: black;
-    position: absolute;
-    top: 200px;
     margin: auto;
-    left: 0;
-    right: 0;
-    border-radius: 10px;
+
     text-align: center;
-    line-height: 50px;
-    display: none;
-    z-index: 3;
+
+    color: black;
+    border-radius: 10px;
+    background: white;
 }
 
-.game__over-paranja {
-    background: #e74c3c;
-    opacity: 0.5;
-    display: none;
+.game__over-paranja
+{
     position: absolute;
-    width: 100%;
-    height: 500px;
+    z-index: 2;
     top: 0;
     bottom: 0;
+
+    display: none;
+
+    width: 100%;
+    height: 500px;
     margin: auto;
-    z-index: 2;
+
+    opacity: .5;
+    background: #e74c3c;
 }
 
-.display-none {
+.display-none
+{
     display: none;
 }
 
-.display-block {
+.display-block
+{
     display: block;
 }

@@ -1,6 +1,8 @@
 /**
  * Created by Maxim on 07.10.2015.
  */
+(function(window, $){
+
 var Game = function () {
     this.init();
     this.start();
@@ -9,7 +11,7 @@ var Game = function () {
 Game.prototype.init = function () {
     this.level = 1;
     this.speed = 800;
-    this.moveTime = 2000;
+    this.moveTime = 5000;
 
     this.canFire = false;
     this.userFailFire = false;
@@ -19,18 +21,30 @@ Game.prototype.init = function () {
     this.timePrepeareToFire = function() {
         var min = 1000,
             max = 3000;
-
         return Math.random() * (max - min) + min ;
     }
 };
 
 Game.prototype.start = function () {
-    this.moveMan();
+    var __self = this;
+    $('.menu__a').click(function(){
+        $('.game__start').toggleClass('display-none');
+        $('.game__man').toggleClass('display-block');
+        setTimeout(function(){
+            __self.moveMan();
+        }, 2000);
+    });
+
 };
 
 Game.prototype.moveMan = function() {
     var __self = this;
     console.log('move man!');
+
+
+
+    $('.game__man').toggleClass('move-man');
+    $('.game__man').toggleClass('going-man');
 
     setTimeout(function(){
         __self.prepeareToFire();
@@ -40,6 +54,15 @@ Game.prototype.moveMan = function() {
 Game.prototype.prepeareToFire = function() {
     var __self = this;
     console.log('wait');
+
+    $('.game__man').one("click", function() {
+            __self.userFire();
+        console.log('click!');
+
+    });
+
+    $('.game__man').toggleClass('going-man');
+    $('.game__man').toggleClass('man-position-in-wait');
 
         setTimeout(function () {
             if (__self.userFailFire == false) {
@@ -84,18 +107,37 @@ Game.prototype.userFire = function() {
 };
 
 Game.prototype.gameOver = function () {
+    var __self = this;
+    $('.game__man').off("click");
     console.log('Game Over!');
+    $('.game__over-paranja').toggleClass('display-block');
+    setTimeout(function(){
+        $('.game__start').toggleClass('display-none');
+        $('.game__over-paranja').toggleClass('display-block');
+
+        $('.game__man').removeClass('display-block');
+        $('.game__man').removeClass('move-man');
+        $('.game__man').removeClass('man-position-in-wait');
+        __self.canFire = false;
+        __self.userFailFire = false;
+    }, 3000);
 };
 
 Game.prototype.nextLevel = function () {
-
+    var __self = this;
     if (this.level !==7) {
+
+        $('.game__man').off("click");
+        $('.game__man').toggleClass('move-man');
+        $('.game__man').toggleClass('man-position-in-wait');
         this.level++;
         console.log('Next Level ' + this.level);
         this.speed -= 100;
         this.canFire = false;
         this.userFailFire = false;
-        this.start();
+       setTimeout(function(){
+         __self.moveMan();
+       }, 1000);
     }
     else {
         this.won();
@@ -108,7 +150,7 @@ Game.prototype.won = function() {
 
 var game = new Game();
 
-
+})(window, jQuery);
 
 
 
