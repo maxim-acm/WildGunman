@@ -11,7 +11,8 @@ Game.prototype.init = function () {
     this.speed = 800;
     this.moveTime = 2000;
 
-    this.userShoot = false;
+    this.canFire = false;
+    this.userFailFire = false;
 
     this.timerId;
 };
@@ -33,9 +34,8 @@ Game.prototype.prepeareToFire = function() {
     var __self = this;
     console.log('wait');
 
-
         setTimeout(function () {
-            if (__self.userShoot == false) {
+            if (__self.userFailFire == false) {
                 __self.startShooting();
             }
 
@@ -45,9 +45,8 @@ Game.prototype.prepeareToFire = function() {
 
 Game.prototype.startShooting = function () {
     console.log('startShooting!');
+    this.canFire = true;
     this.manFire();
-
-
 
 };
 
@@ -55,20 +54,26 @@ Game.prototype.manFire = function() {
     var __self = this;
 
         this.timerId = setTimeout(function () {
+            console.log('man Fire!');
+            __self.gameOver();
 
-            if (__self.userShoot == false) {
-                __self.gameOver();
-                console.log('Man Fire!');
-            }
-        }, 5000);
+        }, __self.speed);
 
 };
 
 Game.prototype.userFire = function() {
     console.log('user fire!');
-    clearTimeout(this.timerId);
-    this.userShoot = true;
-    this.nextLevel();
+    var __self = this;
+    if (__self.canFire == false) {
+        __self.userFailFire = true;
+        __self.gameOver();
+    }
+
+    else if (__self.canFire == true) {
+        clearTimeout(__self.timerId);
+        __self.nextLevel();
+    }
+
 };
 
 Game.prototype.gameOver = function () {
@@ -78,9 +83,11 @@ Game.prototype.gameOver = function () {
 Game.prototype.nextLevel = function () {
 
     if (this.level !==7) {
-        console.log('Next Level ' + this.level);
         this.level++;
-        this.userShoot = false;
+        console.log('Next Level ' + this.level);
+        this.speed -= 100;
+        this.canFire = false;
+        this.userFailFire = false;
         this.start();
     }
     else {
