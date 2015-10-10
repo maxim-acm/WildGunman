@@ -41,7 +41,7 @@ Game.prototype.moveMan = function() {
     var __self = this;
     console.log('move man!');
 
-
+    $('.gunman_time').html((__self.speed) / 1000);
 
     $('.game__man').toggleClass('move-man');
     $('.game__man').toggleClass('going-man');
@@ -76,8 +76,31 @@ Game.prototype.prepeareToFire = function() {
 Game.prototype.startShooting = function () {
     console.log('startShooting!');
     $('.game__status').toggleClass('display-block');
+    $('.game__status').html("FIRE!");
     this.canFire = true;
     this.manFire();
+    this.timer(new Date().getTime());
+
+};
+
+
+Game.prototype.timer = function (t) {
+    var __self = this;
+    var tNow;
+
+    function run() {
+        tNow = new Date().getTime();
+
+        if (__self.canFire == true) {
+                var res = ((tNow - t) / 1000).toFixed(2);
+
+                setTimeout(run, 1);
+
+                var tUser = document.querySelector('.user_time');
+                tUser.innerHTML = res;
+        }
+    }
+    run();
 
 };
 
@@ -108,10 +131,13 @@ Game.prototype.userFire = function() {
 };
 
 Game.prototype.gameOver = function () {
+    this.speed = 800;
     var __self = this;
     $('.game__man').off("click");
     console.log('Game Over!');
+    $('.game__status').html("YOU LOSS!");
     $('.game__over-paranja').toggleClass('display-block');
+
     setTimeout(function(){
         $('.game__status').removeClass('display-block');
 
@@ -149,6 +175,7 @@ Game.prototype.nextLevel = function () {
 };
 
 Game.prototype.won = function() {
+    $('.game__status').html("YOU WON!");
     console.log("Won!");
 };
 
