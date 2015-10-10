@@ -41,10 +41,15 @@ Game.prototype.moveMan = function() {
     var __self = this;
     console.log('move man!');
 
-    $('.gunman_time').html((__self.speed) / 1000);
+    $('.game__status').removeClass('display-block');
 
-    $('.game__man').toggleClass('move-man');
-    $('.game__man').toggleClass('going-man');
+    $('.gunman_time').html(((__self.speed) / 1000).toFixed(2));
+    setTimeout(function(){
+        $('.game__man').toggleClass('going-man');
+        $('.game__man').toggleClass('move-man');
+    }, 500);
+
+
 
     setTimeout(function(){
         __self.prepeareToFire();
@@ -83,7 +88,6 @@ Game.prototype.startShooting = function () {
 
 };
 
-
 Game.prototype.timer = function (t) {
     var __self = this;
     var tNow;
@@ -91,13 +95,12 @@ Game.prototype.timer = function (t) {
     function run() {
         tNow = new Date().getTime();
 
-        if (__self.canFire == true) {
+        if ((__self.canFire == true) && (__self.userFailFire == false)) {
                 var res = ((tNow - t) / 1000).toFixed(2);
 
                 setTimeout(run, 1);
 
-                var tUser = document.querySelector('.user_time');
-                tUser.innerHTML = res;
+                $('.user_time').html(res);
         }
     }
     run();
@@ -131,7 +134,9 @@ Game.prototype.userFire = function() {
 };
 
 Game.prototype.gameOver = function () {
+    this.userFailFire = true;
     this.speed = 800;
+    this.level = 1;
     var __self = this;
     $('.game__man').off("click");
     console.log('Game Over!');
@@ -147,31 +152,45 @@ Game.prototype.gameOver = function () {
         $('.game__man').removeClass('display-block');
         $('.game__man').removeClass('move-man');
         $('.game__man').removeClass('man-position-in-wait');
+
+        $('.user_time').html('0.00');
+        $('.gunman_time').html('0.00');
         __self.canFire = false;
         __self.userFailFire = false;
+
     }, 3000);
 };
 
 Game.prototype.nextLevel = function () {
     var __self = this;
+    this.canFire = false;
+    this.userFailFire = false;
     if (this.level !==7) {
-        $('.game__status').toggleClass('display-block');
+        $('.game__status').html('You won!!');
+        __self.highscore();
 
-        $('.game__man').off("click");
-        $('.game__man').toggleClass('move-man');
-        $('.game__man').toggleClass('man-position-in-wait');
-        this.level++;
-        console.log('Next Level ' + this.level);
-        this.speed -= 100;
-        this.canFire = false;
-        this.userFailFire = false;
        setTimeout(function(){
+
+
+           $('.game__man').off("click");
+           $('.game__man').toggleClass('move-man');
+           $('.game__man').toggleClass('man-position-in-wait');
+
+           $('.user_time').html('0.00');
+           __self.level++;
+           console.log('Next Level ' + __self.level);
+           __self.speed -= 100;
          __self.moveMan();
-       }, 1000);
+       }, 3000);
     }
     else {
         this.won();
     }
+};
+
+Game.prototype.highscore = function() {
+
+    console.log(this.score);
 };
 
 Game.prototype.won = function() {
