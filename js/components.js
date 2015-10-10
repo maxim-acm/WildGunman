@@ -75,6 +75,7 @@ Game.prototype.prepeareToFire = function() {
 
 Game.prototype.startShooting = function () {
     console.log('startShooting!');
+    $('.game__status').toggleClass('display-block');
     this.canFire = true;
     this.manFire();
 
@@ -112,6 +113,8 @@ Game.prototype.gameOver = function () {
     console.log('Game Over!');
     $('.game__over-paranja').toggleClass('display-block');
     setTimeout(function(){
+        $('.game__status').removeClass('display-block');
+
         $('.game__start').toggleClass('display-none');
         $('.game__over-paranja').toggleClass('display-block');
 
@@ -126,6 +129,7 @@ Game.prototype.gameOver = function () {
 Game.prototype.nextLevel = function () {
     var __self = this;
     if (this.level !==7) {
+        $('.game__status').toggleClass('display-block');
 
         $('.game__man').off("click");
         $('.game__man').toggleClass('move-man');

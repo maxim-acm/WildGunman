@@ -105,6 +105,11 @@ hr
     color: #5281cb;
 }
 
+.menu__b,
+.menu__c {
+    color: dimgray;
+}
+
 .hover:hover::before
 {
     position: absolute;
