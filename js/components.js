@@ -21,6 +21,11 @@ Game.prototype.init = function () {
     this.timerId;
     ls.initField('score');
 
+    var highScore = ls.getField('score');
+    if (highScore[0]) {
+        $('.highscore__info').html(highScore[0].highScore*100);
+    }
+
     this.timePrepeareToFire = function() {
         var min = 1000,
             max = 3000;
@@ -197,7 +202,7 @@ Game.prototype.highscore = function() {
     var __self = this;
 
 
-    this.score += (this.speed - this.userSpeed * 1000)/10;
+    __self.score += (this.speed - this.userSpeed * 1000)/10;
     console.log(this.score);
     $('.score__info').html(this.score * 100);
     var obj = {
