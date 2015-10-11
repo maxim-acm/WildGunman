@@ -12,11 +12,17 @@ Game.prototype.init = function () {
     this.level = 1;
     this.speed = 800;
     this.moveTime = 5000;
+    this.userSpeed;
+    this.score = 0;
 
     this.canFire = false;
     this.userFailFire = false;
 
     this.timerId;
+
+    var highScore = ls.getField('score');
+    $('.highscore__info').html(highScore[0].highScore*100);
+
 
     this.timePrepeareToFire = function() {
         var min = 1000,
@@ -99,6 +105,7 @@ Game.prototype.timer = function (t) {
                 var res = ((tNow - t) / 1000).toFixed(2);
 
                 setTimeout(run, 1);
+                __self.userSpeed = res;
 
                 $('.user_time').html(res);
         }
@@ -155,8 +162,10 @@ Game.prototype.gameOver = function () {
 
         $('.user_time').html('0.00');
         $('.gunman_time').html('0.00');
+        $('.score__info').html('0000');
         __self.canFire = false;
         __self.userFailFire = false;
+        __self.score = 0;
 
     }, 3000);
 };
@@ -170,7 +179,6 @@ Game.prototype.nextLevel = function () {
         __self.highscore();
 
        setTimeout(function(){
-
 
            $('.game__man').off("click");
            $('.game__man').toggleClass('move-man');
@@ -189,13 +197,26 @@ Game.prototype.nextLevel = function () {
 };
 
 Game.prototype.highscore = function() {
+    var __self = this;
+    ls.initField('score');
 
+    this.score += (this.speed - this.userSpeed * 1000)/10;
     console.log(this.score);
+    $('.score__info').html(this.score * 100);
+    var obj = {
+        highScore: __self.score
+    };
+    ls.addItem(obj, 'score');
+    console.log(localStorage.score);
+
 };
 
 Game.prototype.won = function() {
     $('.game__status').html("YOU WON!");
     console.log("Won!");
+    $('.score__info').html('0000');
+    this.score = 0;
+
 };
 
 var game = new Game();
