@@ -13,6 +13,11 @@
             if (!ls[field]) {
                 this.clearField(field);
             }
+
+            else {
+                var highScore = this.getField('score');
+                $('.highscore__info').html(highScore[0].highScore*100);
+            }
         };
 
         this.addItem = function(item, field) {

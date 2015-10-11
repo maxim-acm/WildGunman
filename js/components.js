@@ -20,9 +20,6 @@ Game.prototype.init = function () {
 
     this.timerId;
     ls.initField('score');
-    var highScore = ls.getField('score');
-    $('.highscore__info').html(highScore[0].highScore*100);
-
 
     this.timePrepeareToFire = function() {
         var min = 1000,
