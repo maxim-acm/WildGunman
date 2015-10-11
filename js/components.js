@@ -19,7 +19,7 @@ Game.prototype.init = function () {
     this.userFailFire = false;
 
     this.timerId;
-
+    ls.initField('score');
     var highScore = ls.getField('score');
     $('.highscore__info').html(highScore[0].highScore*100);
 
@@ -198,7 +198,7 @@ Game.prototype.nextLevel = function () {
 
 Game.prototype.highscore = function() {
     var __self = this;
-    ls.initField('score');
+
 
     this.score += (this.speed - this.userSpeed * 1000)/10;
     console.log(this.score);
