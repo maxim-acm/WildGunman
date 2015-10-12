@@ -49,18 +49,19 @@ Game.prototype.moveMan = function() {
     var __self = this;
     console.log('move man!');
 
-    $('.game__status').removeClass('display-block');
+    $('.game__status').removeClass('display-block'); //status off
 
-    $('.gunman_time').html(((__self.speed) / 1000).toFixed(2));
+    $('.gunman_time').html(((__self.speed) / 1000).toFixed(2)); // add speed to window
     setTimeout(function(){
-        $('.game__man').toggleClass('going-man');
+        $('.game__man').toggleClass('going-man'); // after 500ms start going
         $('.game__man').toggleClass('move-man');
     }, 500);
 
 
 
     setTimeout(function(){
-        __self.prepeareToFire();
+        __self.prepeareToFire(); // going
+
     }, __self.moveTime)
 };
 
@@ -68,18 +69,18 @@ Game.prototype.prepeareToFire = function() {
     var __self = this;
     console.log('wait');
 
-    $('.game__man').one("click", function() {
+    $('.game__man').one("click", function() {  // add event to click on Fire GunMan
             __self.userFire();
         console.log('click!');
 
     });
 
-    $('.game__man').toggleClass('going-man');
-    $('.game__man').toggleClass('man-position-in-wait');
+    $('.game__man').toggleClass('going-man');  // stop going
+    $('.game__man').toggleClass('man-position-in-wait');  // GunMan waiting duel
 
         setTimeout(function () {
             if (__self.userFailFire == false) {
-                __self.startShooting();
+                __self.startShooting();  // start duel
             }
 
         }, __self.timePrepeareToFire());
@@ -88,11 +89,12 @@ Game.prototype.prepeareToFire = function() {
 
 Game.prototype.startShooting = function () {
     console.log('startShooting!');
+    $('.game__man').addClass('bg-position-in-start-to-shoot');
     $('.game__status').toggleClass('display-block');
     $('.game__status').html("FIRE!");
     this.canFire = true;
-    this.manFire();
-    this.timer(new Date().getTime());
+    this.manFire();  // command to shoot
+    this.timer(new Date().getTime()); //
 
 };
 
@@ -114,14 +116,18 @@ Game.prototype.timer = function (t) {
     }
     run();
 
-};
+};  // User timer for shooting
 
 Game.prototype.manFire = function() {
     var __self = this;
 
         this.timerId = setTimeout(function () {
+            $('.game__man').removeClass('bg-position-in-start-to-shoot');
             console.log('man Fire!');
+
+            $('.game__man').addClass('bg-position-in-fire'); // GunMan fire
             __self.gameOver();
+
 
         }, __self.speed);
 
@@ -130,6 +136,7 @@ Game.prototype.manFire = function() {
 Game.prototype.userFire = function() {
     console.log('user fire!');
     var __self = this;
+
     if (__self.canFire == false) {
         __self.userFailFire = true;
         __self.gameOver();
@@ -138,6 +145,7 @@ Game.prototype.userFire = function() {
     else if (__self.canFire == true) {
         clearTimeout(__self.timerId);
         __self.nextLevel();
+        $('.game__man').addClass('man-death');
     }
 
 };
@@ -149,6 +157,8 @@ Game.prototype.gameOver = function () {
     var __self = this;
     $('.game__man').off("click");
     console.log('Game Over!');
+    $('.game__man').removeClass('bg-position-in-fire');
+
     $('.game__status').html("YOU LOSS!");
     $('.game__over-paranja').toggleClass('display-block');
 
@@ -161,6 +171,7 @@ Game.prototype.gameOver = function () {
         $('.game__man').removeClass('display-block');
         $('.game__man').removeClass('move-man');
         $('.game__man').removeClass('man-position-in-wait');
+
 
         $('.user_time').html('0.00');
         $('.gunman_time').html('0.00');
@@ -176,17 +187,23 @@ Game.prototype.nextLevel = function () {
     var __self = this;
     this.canFire = false;
     this.userFailFire = false;
+    $('.game__man').addClass('man-death-full');
     if (this.level !==7) {
         $('.game__status').html('You won!!');
         __self.highscore();
 
        setTimeout(function(){
 
+           $('.game__man').removeClass('man-death-full');
+           $('.game__man').removeClass('man-death');
+           $('.game__man').removeClass('bg-position-in-fire');
+           $('.game__man').removeClass('bg-position-in-start-to-shoot');
            $('.game__man').off("click");
-           $('.game__man').toggleClass('move-man');
-           $('.game__man').toggleClass('man-position-in-wait');
+           $('.game__man').removeClass('move-man');
+           $('.game__man').removeClass('man-position-in-wait');
 
            $('.user_time').html('0.00');
+
            __self.level++;
            console.log('Next Level ' + __self.level);
            __self.speed -= 100;

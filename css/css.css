@@ -176,16 +176,17 @@ hr
     background: url('../image/gunman.png') no-repeat 0 0;
 }
 
-.man-position-in-wait
-{
-    background-position: -100px 0;
-}
-
 .move-man
 {
     right: 165px;
 
     transition: 4.5s linear;
+}
+
+.man-position-in-wait
+{
+    transition:  0s;
+    background-position: -100px 0;
 }
 
 .bg-position-in-start-to-shoot
@@ -202,8 +203,9 @@ hr
 }
 
 .bg-position-in-fire
-{
+{   transition: 0s;
     background-position: -269px 0;
+
 }
 
 .man-move-with-win
@@ -212,6 +214,7 @@ hr
 
     transition: 5s linear;
     animation: play .4s steps(3) infinite;
+
 
     background-position: 0 0;
 }
